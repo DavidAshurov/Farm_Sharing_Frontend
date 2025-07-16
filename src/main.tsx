@@ -13,6 +13,26 @@ const theme = createTheme({
         secondary: {
             main: "#4b9b4b"
         }
+    },
+    components: {
+        MuiToggleButton: {
+            styleOverrides: {
+                root: {
+                    '&:focus': {
+                        outline: 'none'
+                    }
+                }
+            }
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    '&:focus': {
+                        outline: 'none'
+                    }
+                }
+            }
+        }
     }
 })
 

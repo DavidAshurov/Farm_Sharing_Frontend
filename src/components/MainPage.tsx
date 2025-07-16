@@ -1,7 +1,10 @@
 import {Box, Button, Typography} from "@mui/material";
 import backgroundImage from '/src/assets/Farm Sharing background.jpg'
+import {useNavigate} from "react-router-dom";
 
 const MainPage = () => {
+    const navigate = useNavigate()
+
     return (
         <Box
             sx={{
@@ -12,7 +15,6 @@ const MainPage = () => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                mt: {xs: 7, sm: 8},
             }}
         >
             {/* Dark overlay */}
@@ -51,6 +53,7 @@ const MainPage = () => {
                 </Typography>
                 <Box mt={'30px'}>
                     <Button
+                        onClick={() => navigate('/offers')}
                         sx={{
                             backgroundColor: `#4b9b4b`,
                             borderRadius:'8px',
@@ -81,7 +84,6 @@ const MainPage = () => {
                 </Box>
             </Box>
         </Box>
-
     );
 };
 

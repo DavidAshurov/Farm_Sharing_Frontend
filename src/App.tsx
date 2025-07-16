@@ -2,6 +2,7 @@ import './App.css'
 import Header from "./components/Header.tsx";
 import {Routes, Route} from "react-router-dom";
 import MainPage from "./components/MainPage.tsx";
+import OffersPage from "./components/offers/OffersPage.tsx";
 
 function App() {
     return (
@@ -9,6 +10,7 @@ function App() {
             <Header/>
             <Routes>
                 <Route path={'/'} element={<MainPage/>}/>
+                <Route path={'/offers'} element={<OffersPage/>}/>
             </Routes>
         </>
     )
