@@ -1,12 +1,24 @@
+import {Grid} from "@mui/material";
+import {offers} from "../../utils/constants.ts";
+import OfferCard from "./OfferCard.tsx";
+
 interface Props {
-    searchRequest:string,
-    chosenCategory:string
+    searchRequest: string,
+    chosenCategory: string
 }
-const OffersGrid = ({searchRequest,chosenCategory}:Props) => {
+
+const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
     return (
-        <div>
-            
-        </div>
+        <Grid container spacing={3}
+              sx={{
+                  p:'1rem',
+                  justifyContent:'space-between',
+
+              }}>
+            <>
+                {offers.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}
+            </>
+        </Grid>
     );
 };
 

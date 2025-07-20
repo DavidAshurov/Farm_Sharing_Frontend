@@ -32,6 +32,15 @@ const theme = createTheme({
                     }
                 }
             }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    '&:focus': {
+                        outline: 'none'
+                    }
+                }
+            }
         }
     }
 })

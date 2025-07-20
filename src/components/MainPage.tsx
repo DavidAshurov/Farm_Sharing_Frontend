@@ -1,5 +1,5 @@
 import {Box, Button, Typography} from "@mui/material";
-import backgroundImage from '/src/assets/Farm Sharing background.jpg'
+import backgroundImage from '/src/assets/Main page background.jpg'
 import {useNavigate} from "react-router-dom";
 
 const MainPage = () => {
