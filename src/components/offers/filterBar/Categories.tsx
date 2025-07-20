@@ -1,4 +1,4 @@
-import {ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {Box, ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 interface Props {
     chosenCategory: string,
@@ -18,31 +18,34 @@ const Categories = ({chosenCategory, setChosenCategory}: Props) => {
             onChange={handleCategory}
             color={"secondary"}
         >
-            <>
-                {categories.map(cat =>
-                    <ToggleButton key={cat}
-                                  value={cat}
-                                  size={"small"}
-                                  sx={{
-                                      borderRadius: '1.5rem',
-                                      px:'0.75rem',
-                                      color: 'black',
-                                      mr:'1rem',
-                                      fontWeight: 'bold',
-                                      '&.Mui-selected': {
-                                          backgroundColor: 'secondary.main',
-                                          color: 'white',
+            <Box>
+                <>
+                    {categories.map(cat =>
+                        <ToggleButton key={cat}
+                                      value={cat}
+                                      size={"small"}
+                                      sx={{
+                                          borderRadius: '1.5rem',
+                                          px: '0.75rem',
+                                          color: 'black',
+                                          mr: '1rem',
+                                          mt:'0.7rem',
+                                          fontWeight: 'bold',
+                                          '&.Mui-selected': {
+                                              backgroundColor: 'secondary.main',
+                                              color: 'white',
+                                              '&:hover': {
+                                                  backgroundColor: 'secondary.dark'
+                                              }
+                                          },
                                           '&:hover': {
-                                              backgroundColor: 'secondary.dark'
+                                              borderColor: 'secondary.main'
                                           }
-                                      },
-                                      '&:hover': {
-                                          borderColor: 'secondary.main'
-                                      }
-                                  }}>
-                        {cat}
-                    </ToggleButton>)}
-            </>
+                                      }}>
+                            {cat}
+                        </ToggleButton>)}
+                </>
+            </Box>
         </ToggleButtonGroup>
     );
 };

@@ -12,8 +12,6 @@ const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
         <Grid container spacing={3}
               sx={{
                   p:'1rem',
-                  justifyContent:'space-between',
-
               }}>
             <>
                 {offers.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}

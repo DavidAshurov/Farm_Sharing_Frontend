@@ -12,11 +12,11 @@ interface Props {
 const FilterBar = ({searchRequest,setSearchRequest,chosenCategory,setChosenCategory}:Props) => {
     return (
         <Box
-            height={'6rem'}
             p={'1.5rem 1rem'}
             boxSizing={'border-box'}
             display={"flex"}
             justifyContent={'space-between'}
+            flexWrap={'wrap'}
             flexDirection={"row"}
             borderBottom={'1px solid grey'}
         >
