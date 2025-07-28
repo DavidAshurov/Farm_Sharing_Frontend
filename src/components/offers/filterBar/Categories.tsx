@@ -8,7 +8,7 @@ interface Props {
 const Categories = ({chosenCategory, setChosenCategory}: Props) => {
     const categories = ['All products', 'Vegetables', 'Fruits', 'Herbs', 'Diary', 'Pantry']
 
-    const handleCategory = (event, newCategory) => {
+    const handleCategory = (_event: unknown, newCategory: string | ((prevState: string) => string) | null) => {
         setChosenCategory(newCategory === null ? 'All products' : newCategory)
     }
     return (

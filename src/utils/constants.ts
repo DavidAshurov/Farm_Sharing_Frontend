@@ -1,3 +1,5 @@
+import type {Offer} from "../types/offer.ts";
+
 export const offers:Offer[] = [
     {
         category:'Fruits',

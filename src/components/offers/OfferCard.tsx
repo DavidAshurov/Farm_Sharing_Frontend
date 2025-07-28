@@ -1,6 +1,7 @@
 import {Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import GradeIcon from '@mui/icons-material/Grade';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import type {Offer} from "../../types/offer.ts";
 
 interface Props {
     offer: Offer
