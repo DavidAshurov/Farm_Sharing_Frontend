@@ -22,8 +22,10 @@ const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
             anchor="right"
             open={open}
             onClose={onClose}
-            PaperProps={{
-                className: "w-[320px] sm:w-[380px]"
+            slotProps={{
+                paper: {
+                    className: "w-[320px] sm:w-[380px]"
+                }
             }}
         >
             <Box className="p-4 h-full flex flex-col">
