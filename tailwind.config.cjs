@@ -14,13 +14,12 @@ export default {
         'xl': '1rem',
         '2xl': '1.5rem',
       },
-      boxShadow: {
-        'card': '0 4px 15px rgba(0, 0, 0, 0.1)',
-        'button': '0 4px 6px rgba(75, 155, 75, 0.25)',
-      },
     },
   },
+  // Чтобы работать вместе с MUI
+  corePlugins: {
+    preflight: false,
+  },
+  important: true,
   plugins: [],
 }
-
-

@@ -1,115 +1,109 @@
 // Description: A drawer component for displaying the shopping cart,
 // including items, total price, and actions(Выдвижная панель корзины)
-import { Drawer, Box, Typography, Button, Divider, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import CartItem from './CartItem';
-import { useCart } from '../../hooks/useCart';
 
+import { Drawer, Box, Typography, Button, Divider } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useCart } from '../../shared/cart/model/CartContext';
+// Импортируем компонент CartItem для отображения товаров в корзине
+import { CartItem } from '../cart/CartItem';
+
+// Типы для пропсов, т.е. для параметров, которые принимает компонент CartDrawer
 interface CartDrawerProps {
-    isOpen: boolean;
+    open: boolean;
     onClose: () => void;
 }
 
-const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
-    const { cartItems, totalPrice, clearCart } = useCart();
+const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
+    const { items, totalPrice, clearCart } = useCart();
 
     return (
         <Drawer
             anchor="right"
-            open={isOpen}
+            open={open}
             onClose={onClose}
+            PaperProps={{
+                className: "w-[320px] sm:w-[380px]"
+            }}
         >
-            <Box sx={{ width: 350, p: 3 }}>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    <Typography variant="h6" fontWeight="bold">
+            <Box className="p-4 h-full flex flex-col">
+                {/* Заголовок */}
+                <Box className="flex justify-between items-center mb-4">
+                    <Typography variant="h6" className="font-bold">
                         Your Cart
                     </Typography>
-                    <IconButton onClick={onClose}>
+                    <button
+                        onClick={onClose}
+                        className="p-1 text-gray-500 hover:text-gray-700"
+                    >
                         <CloseIcon />
-                    </IconButton>
+                    </button>
                 </Box>
 
-                <Divider sx={{ mb: 2 }} />
+                <Divider className="mb-4" />
 
-                {cartItems.length === 0 ? (
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        height="200px"
-                    >
-                        <img
-                            src="/src/assets/empty-cart.svg"
-                            alt="Empty cart"
-                            style={{ width: '80px', marginBottom: '16px', opacity: 0.5 }}
-                        />
-                        <Typography color="text.secondary">
+                {/* Содержимое корзины */}
+                {items.length === 0 ? (
+                    <Box className="flex flex-col items-center justify-center flex-grow py-10">
+                        <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                            <ShoppingCartOutlinedIcon fontSize="large" className="text-gray-400" />
+                        </div>
+                        <Typography className="text-gray-500 mb-2">
                             Your cart is empty
                         </Typography>
                         <Button
-                            variant="text"
-                            color="secondary"
-                            sx={{ mt: 2 }}
                             onClick={onClose}
+                            className="text-primary"
                         >
-                            Continue Shopping
+                            Continue shopping
                         </Button>
                     </Box>
                 ) : (
                     <>
-                        <Box sx={{ maxHeight: 'calc(100vh - 250px)', overflowY: 'auto', mb: 2 }}>
-                            {cartItems.map((item) => (
+                        <Box className="flex-grow overflow-auto mb-4">
+                            {items.map((item) => (
                                 <CartItem key={item.product.title} item={item} />
                             ))}
                         </Box>
 
-                        <Divider sx={{ my: 2 }} />
-
                         <Box>
-                            <Box display="flex" justifyContent="space-between" mb={1}>
+                            <div className="flex justify-between mb-2">
                                 <Typography>Subtotal:</Typography>
-                                <Typography fontWeight="bold">₪{totalPrice.toFixed(2)}</Typography>
-                            </Box>
-
-                            <Box display="flex" justifyContent="space-between" mb={2}>
-                                <Typography>Delivery:</Typography>
-                                <Typography fontWeight="bold">Free</Typography>
-                            </Box>
-
-                            <Box display="flex" justifyContent="space-between" mb={3}>
-                                <Typography variant="h6">Total:</Typography>
-                                <Typography variant="h6" fontWeight="bold" color="secondary">
+                                <Typography className="font-bold">
                                     ₪{totalPrice.toFixed(2)}
                                 </Typography>
-                            </Box>
+                            </div>
+
+                            <div className="flex justify-between mb-3">
+                                <Typography>Delivery:</Typography>
+                                <Typography className="font-bold text-green-600">
+                                    Free
+                                </Typography>
+                            </div>
+
+                            <Divider className="mb-3" />
+
+                            <div className="flex justify-between mb-4">
+                                <Typography variant="h6">Total:</Typography>
+                                <Typography variant="h6" className="font-bold text-primary">
+                                    ₪{totalPrice.toFixed(2)}
+                                </Typography>
+                            </div>
 
                             <Button
-                                fullWidth
-                                sx={{
-                                    py: 1.5,
-                                    borderRadius: 2,
-                                    background: 'linear-gradient(to right, #f9ca09, #4b9b4b)',
-                                    color: 'white',
-                                    fontWeight: 'bold',
-                                    mb: 2
-                                }}
+                                variant="contained"
+                                className="w-full mb-2 py-3 bg-gradient-to-r from-yellow-400 to-green-600
+                         text-white font-bold rounded-xl shadow-md"
                             >
                                 Checkout
                             </Button>
 
                             <Button
-                                fullWidth
-                                variant="outlined"
-                                color="inherit"
-                                sx={{
-                                    borderRadius: 2,
-                                    color: 'text.secondary',
-                                    borderColor: 'divider'
-                                }}
+                                variant="text"
                                 onClick={clearCart}
+                                className="w-full text-gray-500"
                             >
-                                Clear Cart
+                                Clear cart
                             </Button>
                         </Box>
                     </>

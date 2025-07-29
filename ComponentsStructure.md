@@ -1,12 +1,28 @@
+
 src/
-├── components/
-│   ├── product/              🆕 Новая папка для компонентов товара
-│   │   ├── ProductCard.tsx   🆕 Детальная карточка товара
-│   │   ├── ProductImage.tsx  🆕 Компонент изображения с кнопкой избранного
-│   │   ├── FarmerInfo.tsx    🆕 Информация о фермере и местоположении
-│   │   ├── ProductRating.tsx 🆕 Рейтинг и количество отзывов
-│   │   └── QuantitySelector.tsx 🆕 Селектор количества с кнопками +/-
-│   ├── cart/                 🆕 Компоненты корзины
-│   │   ├── CartButton.tsx    🆕 Кнопка корзины для хедера
-│   │   ├── CartDrawer.tsx    🆕 Выдвижная панель корзины
-│   │   └── CartItem.tsx      🆕 Элемент в корзине
+├── components/            🆕 Компоненты UI
+│   ├── cart/             🆕 Компоненты корзины
+│   │   ├── CartButton.tsx
+│   │   ├── CartDrawer.tsx
+│   │   └── CartItem.tsx
+│   ├── offers/           🆕 Компоненты предложений/товаров
+│   │   ├── filterBar/    🆕 Фильтрация
+│   │   ├── OfferCard.tsx
+│   │   └── ...
+│   ├── product/          🆕 Компоненты для детального просмотра
+│   │   ├── ProductCard.tsx
+│   │   ├── ProductImage.tsx
+│   │   └── ...
+│   └── ...
+├── hooks/                 🆕 Пользовательские хуки
+│   ├── useCart.ts        🆕 Хук для работы с корзиной
+│   └── useFarms.ts       🆕 Хук для получения ферм
+├── shared/               🆕Общие ресурсы (подготовка к FSD)
+│   └── cart/             🆕Сущность корзины
+│       └── model/        🆕Бизнес-логика корзины
+│           └── CartContext.tsx  🆕 Контекст корзины
+├── types/                 🆕 Типы данных
+│   ├── farm.ts           🆕 Тип Farm
+│   └── offer.ts          🆕 Тип Offer
+└── utils/                 🆕 Утилиты
+└── constants.ts       🆕 Константы (тестовые данные)

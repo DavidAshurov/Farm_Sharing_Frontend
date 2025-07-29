@@ -1,10 +1,10 @@
-import { Farm } from '../../utils/types';
+import { type Farm } from '../../types/farm';
 
-interface FarmerInfoProps {
+interface FarmInfoProps {
     farm: Farm;
 }
 
-const FarmerInfo = ({ farm }: FarmerInfoProps) => {
+const FarmerInfo = ({ farm }: FarmInfoProps) => {
     return (
         <div className="mt-2 flex items-center text-sm text-gray-600">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,104 +1,77 @@
 // Description: Component to display a single item in the shopping
 // cart with options to update quantity or remove it (Элемент в корзине)
+
 import { Box, Typography, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { CartItemType, useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
+import type {CartItem as CartItemType} from "../../types/cartItem.ts";
 
 interface CartItemProps {
-    item: CartItemType;
+    item: CartItemType
 }
 
-const CartItem = ({ item }: CartItemProps) => {
-    const { updateQuantity, removeFromCart } = useCart();
+export const CartItem = ({ item }: CartItemProps) => {
     const { product, quantity } = item;
+    const { updateQuantity, removeFromCart } = useCart();
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                mb: 2,
-                pb: 2,
-                borderBottom: '1px solid',
-                borderColor: 'divider'
-            }}
-        >
-            <Box
-                sx={{
-                    width: 70,
-                    height: 70,
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    mr: 2
-                }}
-            >
+        <Box className="flex py-3 border-b border-gray-100 last:border-none">
+            {/* Изображение */}
+            <div className="w-16 h-16 rounded-lg overflow-hidden mr-3">
                 <img
                     src={product.image}
                     alt={product.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    className="w-full h-full object-cover"
                 />
-            </Box>
+            </div>
 
-            <Box sx={{ flexGrow: 1 }}>
-                <Box display="flex" justifyContent="space-between">
-                    <Typography variant="subtitle1" fontWeight="medium">
-                        {product.title}
-                    </Typography>
+            {/* Информация */}
+            <Box className="flex-1">
+                <div className="flex justify-between">
+                    <Typography className="font-medium">{product.title}</Typography>
                     <IconButton
                         size="small"
-                        color="inherit"
                         onClick={() => removeFromCart(product.title)}
+                        className="text-gray-400 hover:text-red-500 transition-colors"
                     >
                         <DeleteOutlineIcon fontSize="small" />
                     </IconButton>
-                </Box>
+                </div>
 
-                <Typography variant="body2" color="text.secondary" mb={1}>
+                <Typography variant="caption" className="text-gray-500">
                     {product.farm.name}
                 </Typography>
 
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography color="secondary" fontWeight="bold">
+                <div className="flex justify-between items-center mt-2">
+                    <Typography className="font-bold text-primary">
                         ₪{product.price.toFixed(2)}
                     </Typography>
 
-                    <Box display="flex" alignItems="center">
-                        <IconButton
-                            size="small"
-                            onClick={() => updateQuantity(product.title, Math.max(1, quantity - 1))}
-                            disabled={quantity <= 1}
-                            sx={{
-                                bgcolor: 'action.hover',
-                                width: 24,
-                                height: 24,
-                                '&:hover': { bgcolor: 'action.selected' }
-                            }}
+                    <div className="flex items-center">
+                        <button
+                            onClick={() => updateQuantity(product.title, quantity - 1)}
+                            className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-200
+                       text-gray-700 hover:bg-gray-300 transition-colors"
                         >
                             <RemoveIcon fontSize="small" />
-                        </IconButton>
+                        </button>
 
-                        <Typography mx={1.5} fontWeight="medium">
-                            {quantity}
-                        </Typography>
+                        <span className="mx-2 font-medium">{quantity}</span>
 
-                        <IconButton
-                            size="small"
+                        <button
                             onClick={() => updateQuantity(product.title, quantity + 1)}
-                            sx={{
-                                bgcolor: 'action.hover',
-                                width: 24,
-                                height: 24,
-                                '&:hover': { bgcolor: 'action.selected' }
-                            }}
+                            className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-200
+                       text-gray-700 hover:bg-gray-300 transition-colors"
                         >
                             <AddIcon fontSize="small" />
-                        </IconButton>
-                    </Box>
-                </Box>
+                        </button>
+                    </div>
+                </div>
             </Box>
         </Box>
     );
 };
 
-export default CartItem;
+// export default CartItem;

@@ -1,6 +1,7 @@
-import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
+// src/components/Header.tsx
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import CartButton from './cart/CartButton'; // Используем новую кнопку корзины
 
 const Header = () => {
     return (
@@ -20,9 +21,7 @@ const Header = () => {
                     <IconButton color={"secondary"}>
                         <PersonIcon/>
                     </IconButton>
-                    <IconButton color={"secondary"}>
-                        <ShoppingCartOutlinedIcon/>
-                    </IconButton>
+                    <CartButton /> {/* Используем обновлённую кнопку */}
                 </Box>
             </Toolbar>
         </AppBar>

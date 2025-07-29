@@ -3,17 +3,18 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import ProductCard from './ProductCard';
-import { Offer } from '../../utils/types';
+import type {Offer} from '../../types/offer';
 
 interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
     product: Offer | null;
 }
-
+// Модальное окно для отображения детальной информации о товаре ( передает его в ProductCard )
 const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
-    if (!product) return null;
+    if (!product) return null;// Если продукт не передан, ничего не отображаем
 
+// Если модальное окно закрыто, ничего не отображаем
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={onClose}>

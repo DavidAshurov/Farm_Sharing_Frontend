@@ -1,10 +1,79 @@
-import {useContext} from "react";
-import { CartContext } from '../shared/cart/model/CartContext';
+// Хук useCart (занимается только логикой корзины)
+// src/hooks/useCart.ts
+import { useState } from 'react';
+import { type Offer } from '../types/offer';
+import type {CartItem} from "../types/cartItem.ts";
+
 
 export const useCart = () => {
-    const context = useContext(CartContext);
-    if (!context) throw new Error('useCart must be used within a CartProvider');
-    return context;
-};
+    // Состояние корзины
+    const [items, setItems] = useState<CartItem[]>([]);
 
-//         setCartItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+    // Добавление товара в корзину
+    const addToCart = (product: Offer, quantity: number = 1) => {
+        setItems(prev => {
+            // Ищем товар в корзине
+            const existingItem = prev.find(item => item.product.title === product.title);
+
+            if (existingItem) {
+                // Если есть - увеличиваем количество
+                return prev.map(item =>
+                    item.product.title === product.title
+                        ? { ...item, quantity: item.quantity + quantity }
+                        : item
+                );
+            } else {
+                // Если нет - добавляем новый
+                return [...prev, { product, quantity }];
+            }
+        });
+    };
+
+    // Удаление товара из корзины
+    const removeFromCart = (productTitle: string) => {
+        setItems(prev => prev.filter(item => item.product.title !== productTitle));
+    };
+
+    // Изменение количества товара
+    const updateQuantity = (productTitle: string, quantity: number) => {
+        if (quantity <= 0) {
+            removeFromCart(productTitle);
+            return;
+        }
+
+        setItems(prev =>
+            prev.map(item =>
+                item.product.title === productTitle
+                    ? { ...item, quantity }
+                    : item
+            )
+        );
+    };
+
+    // Очистка корзины
+    const clearCart = () => {
+        setItems([]);
+    };
+
+    // Общее количество товаров
+    const totalItems = items.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+    );
+
+    // Общая стоимость
+    const totalPrice = items.reduce(
+        (sum, item) => sum + (item.product.price * item.quantity),
+        0
+    );
+
+    return {
+        items,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        totalItems,
+        totalPrice
+    };
+};

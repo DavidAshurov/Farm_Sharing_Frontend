@@ -2,35 +2,34 @@
 // displaying the number of items in the cart (Кнопка корзины для хедера)
 
 import { useState } from 'react';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { IconButton, Badge } from '@mui/material';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartDrawer from './CartDrawer';
+import { useCart } from '../../shared/cart/model/CartContext';
 
-interface CartButtonProps {
-    itemCount: number;
-}
-
-const CartButton = ({ itemCount }: CartButtonProps) => {
-    const [isCartOpen, setIsCartOpen] = useState(false);
-
-    const openCart = () => setIsCartOpen(true);
-    const closeCart = () => setIsCartOpen(false);
+const CartButton = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const { totalItems } = useCart();
 
     return (
         <>
             <IconButton
                 color="secondary"
-                onClick={openCart}
+                onClick={() => setIsOpen(true)}
                 className="relative"
             >
-                <Badge badgeContent={itemCount} color="secondary">
+                <Badge
+                    badgeContent={totalItems}
+                    color="secondary"
+                    className={totalItems > 0 ? "animate-pulse" : ""}
+                >
                     <ShoppingCartOutlinedIcon />
                 </Badge>
             </IconButton>
 
             <CartDrawer
-                isOpen={isCartOpen}
-                onClose={closeCart}
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
             />
         </>
     );
