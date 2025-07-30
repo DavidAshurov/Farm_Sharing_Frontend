@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/tw-elements/js/**/*.js",
   ],
   theme: {
     extend: {
@@ -16,10 +17,12 @@ export default {
       },
     },
   },
+    darkMode: "class", // Использовать класс для переключения темной темы
   // Чтобы работать вместе с MUI
   corePlugins: {
     preflight: false,
   },
   important: true,
-  plugins: [],
+  // plugins: [],
+  plugins: [require("tw-elements/plugin.cjs")],
 }
