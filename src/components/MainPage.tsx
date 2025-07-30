@@ -1,10 +1,26 @@
 import {Box, Button, Typography} from "@mui/material";
 import backgroundImage from '/src/assets/Main page background.jpg'
 import {useNavigate} from "react-router-dom";
+import {useSignInMutation} from "../app/api/authApi.ts";
+import {useDispatch} from "react-redux";
+import {setToken, setUser} from "../app/authSlice.ts";
 
 const MainPage = () => {
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    const [signIn] = useSignInMutation()
+    const handleClick = async () => {
+        try {
+            const res = await signIn({
+                email: "farm@gmail.com",
+                password: "1234",
+            }).unwrap()
+            dispatch(setUser(res.user))
+            dispatch(setToken(res.accessToken))
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <Box
             sx={{
@@ -49,7 +65,7 @@ const MainPage = () => {
                     to your table
                 </Typography>
                 <Typography mt={'30px'} variant={'h5'} color={"primary"}>
-                    Connect directly with local farmers. Get the freshest products with cheapest price.
+                    Connect directly with local farmers. Get freshest products with cheapest price.
                 </Typography>
                 <Box mt={'30px'}>
                     <Button
@@ -68,6 +84,7 @@ const MainPage = () => {
                         Buy fresh products
                     </Button>
                     <Button
+                        onClick={() => handleClick()}
                         sx={{
                             backgroundColor: `#fefdfd`,
                             color:'#4b9b4b',
