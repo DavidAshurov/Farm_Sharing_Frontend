@@ -20,7 +20,7 @@ const OfferCard = ({offer}: Props) => {
                 }}
             >
                 <CardMedia
-                    image={offer.image}
+                    image={'/src/assets/card image.jpg'}
                     sx={{
                         height: '160px'
                     }}
@@ -30,7 +30,7 @@ const OfferCard = ({offer}: Props) => {
                         {offer.title}
                     </Typography>
                     <Typography variant={'body2'} textAlign={'start'} color={'grey'}>
-                        by {offer.farm.name} • {offer.farm.city}
+                        by {offer.farm.nickname} • {offer.farm.city}
                     </Typography>
                     <Box sx={{display: 'flex', gap: 0.5, justifyContent: 'flex-start', mt: '1rem'}}>
                         <GradeIcon sx={{color: '#f9ca09', fontSize: 18}}/>

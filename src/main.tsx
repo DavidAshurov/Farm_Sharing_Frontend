@@ -1,9 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import {createTheme, ThemeProvider} from "@mui/material";
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
+import {store} from "./app/store.ts";
 
 const theme = createTheme({
     palette: {
@@ -46,11 +48,12 @@ const theme = createTheme({
 })
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-  <StrictMode>
-      <BrowserRouter>
-          <ThemeProvider theme={theme}>
-              <App/>
-          </ThemeProvider>
-      </BrowserRouter>
-  </StrictMode>,
+
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
+            </ThemeProvider>
+        </BrowserRouter>,
 )

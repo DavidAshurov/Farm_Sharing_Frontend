@@ -1,6 +1,6 @@
 import {Grid} from "@mui/material";
-import {offers} from "../../utils/constants.ts";
 import OfferCard from "./OfferCard.tsx";
+import {useGetAllOffersQuery} from "../../app/api/offerApi.ts";
 
 interface Props {
     searchRequest: string,
@@ -8,13 +8,14 @@ interface Props {
 }
 
 const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
+    const {data = []} = useGetAllOffersQuery()
     return (
         <Grid container spacing={3}
               sx={{
                   p:'1rem',
               }}>
             <>
-                {offers.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}
+                {data.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}
             </>
         </Grid>
     );
