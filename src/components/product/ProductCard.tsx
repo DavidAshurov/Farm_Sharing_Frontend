@@ -5,12 +5,12 @@ import { Card, CardContent, Typography, Button } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { type Offer } from '../../types/offer';
+import { type Product } from '../../types/product.ts';
 import { useCart } from '../../shared/cart/model/CartContext';
 
 // 🔍 Здесь мы определяем, какие параметры может принимать наш компонент
 interface ProductCardProps {
-    product: Offer;
+    product: Product;
     expanded?: boolean;
     onProductClick?: () => void;
     isModal?: boolean; // Пропс для определения, показывается ли в модальном окне

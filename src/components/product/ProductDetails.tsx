@@ -5,12 +5,12 @@ import { Dialog, DialogContent, Typography, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { type Offer } from '../../types/offer';
+import { type Product } from '../../types/product.ts';
 import { useCart } from '../../shared/cart/model/CartContext';
 
 
 interface ProductDetailsProps {
-    product: Offer | null;
+    product: Product | null;
     open: boolean;
     onClose: () => void;
 }

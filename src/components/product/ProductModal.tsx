@@ -3,12 +3,12 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import ProductCard from './ProductCard';
-import type {Offer} from '../../types/offer';
+import type {Product} from '../../types/product.ts';
 
 interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
-    product: Offer | null;
+    product: Product | null;
 }
 // Модальное окно для отображения детальной информации о товаре ( передает его в ProductCard )
 const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {

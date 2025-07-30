@@ -7,10 +7,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ProductDetails from '../product/ProductDetails';
 import { useCart } from '../../shared/cart/model/CartContext';
-import type {Offer} from "../../types/offer.ts";
+import type {Product} from "../../types/product.ts";
 
 interface Props {
-    offer: Offer
+    offer: Product
 }
 
 const OfferCard = ({ offer }: Props) => {

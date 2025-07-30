@@ -1,7 +1,7 @@
 // Тип элемента корзины
-import type {Offer} from "./offer.ts";
+import type {Product} from "./product.ts";
 
 export interface CartItem {
-    product: Offer;
+    product: Product;
     quantity: number;
 }

@@ -2,12 +2,12 @@
 // src/shared/cart/model/CartContext.tsx
 import { createContext, useContext } from 'react';
 import {type  CartItem } from '../../../types/cartItem';
-import {type  Offer } from '../../../types/offer';
+import {type  Product } from '../../../types/product.ts';
 
 // Интерфейс контекста корзины
 interface CartContextType {
     items: CartItem[];
-    addToCart: (product: Offer, quantity?: number) => void;
+    addToCart: (product: Product, quantity?: number) => void;
     removeFromCart: (productTitle: string) => void;
     updateQuantity: (productTitle: string, quantity: number) => void;
     clearCart: () => void;

@@ -1,6 +1,6 @@
-import type {Offer} from "../types/offer.ts";
+import type {Product} from "../types/product.ts";
 
-export const offers:Offer[] = [
+export const offers:Product[] = [
     {
         category:'Fruits',
         title:'Apples',

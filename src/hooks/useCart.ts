@@ -1,7 +1,7 @@
 // Хук useCart (занимается только логикой корзины)
 // src/hooks/useCart.ts
 import { useState } from 'react';
-import { type Offer } from '../types/offer';
+import { type Product } from '../types/product.ts';
 import type {CartItem} from "../types/cartItem.ts";
 
 
@@ -10,7 +10,7 @@ export const useCart = () => {
     const [items, setItems] = useState<CartItem[]>([]);
 
     // Добавление товара в корзину
-    const addToCart = (product: Offer, quantity: number = 1) => {
+    const addToCart = (product: Product, quantity: number = 1) => {
         setItems(prev => {
             // Ищем товар в корзине
             const existingItem = prev.find(item => item.product.title === product.title);

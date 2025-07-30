@@ -1,6 +1,6 @@
 import type {Farm} from "./farm.ts";
 
-export interface Offer {
+export interface Product {
     category: string,
     title: string,
     description: string,
