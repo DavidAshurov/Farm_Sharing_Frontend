@@ -22,16 +22,6 @@ const SearchBar = ({searchRequest,setSearchRequest}:Props) => {
                 }}
                 sx={{
                     width:'25rem',
-                    '& .MuiOutlinedInput-root':{
-                        borderRadius:'1rem',
-                        '&:hover fieldset': {
-                            borderColor:'secondary.main'
-                        },
-                        '&.Mui-focused fieldset': {
-                            borderColor:'secondary.main',
-                            borderWidth:'2px',
-                        }
-                    }
                 }}
             />
         </>

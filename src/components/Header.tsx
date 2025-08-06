@@ -4,7 +4,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const Header = () => {
     return (
-        <AppBar position={"fixed"}
+        <AppBar position={"sticky"}
                 sx={{
                     backgroundColor: "rgba(255,255,255,0.8)",
                     backdropFilter: "blur(6px)",

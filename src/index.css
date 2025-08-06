@@ -27,11 +27,11 @@ a:hover {
 
 body {
   margin: 0;
-  padding-top: 70px;
   display: flex;
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  background-color:#fbfaf6;
 }
 
 h1 {

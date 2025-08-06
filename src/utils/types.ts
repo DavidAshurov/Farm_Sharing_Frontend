@@ -16,7 +16,6 @@ interface Farm {
     rating:number,
 }
 interface User {
-    id:number,
     nickname:string,
     phoneNumber:string,
     city:string,
@@ -24,6 +23,14 @@ interface User {
     email:string,
     role:string,
     rating:number,
+}
+
+interface NewUserDto {
+    role:string,
+    nickname:string,
+    email:string,
+    password:string,
+    phoneNumber:string | null,
 }
 
 interface Credentials {

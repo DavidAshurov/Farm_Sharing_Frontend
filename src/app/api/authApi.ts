@@ -2,7 +2,7 @@ import {rootApi} from "./rootApi.ts";
 
 const authApi = rootApi.injectEndpoints({
     endpoints: (build) => ({
-        signUp: build.mutation<boolean,User>({
+        signUp: build.mutation<boolean,NewUserDto>({
             query: (userData) => ({
                 url: '/auth/sign-up',
                 method: 'POST',
