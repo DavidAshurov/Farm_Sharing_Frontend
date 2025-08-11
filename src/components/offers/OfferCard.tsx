@@ -1,15 +1,26 @@
 import {Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import GradeIcon from '@mui/icons-material/Grade';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import {useState} from "react";
+import CardExtraInfo from "./CardExtraInfo.tsx";
 
 interface Props {
     offer: Offer
 }
 
 const OfferCard = ({offer}: Props) => {
+    const [openExtraInfo,setOpenExtraInfo] = useState(false)
+
+    const handleCardClick = () => setOpenExtraInfo(true)
+
+    const handleButtonClick = (event) => {
+        event.stopPropagation()
+    }
+
     return (
         <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2.4}}>
             <Card
+                onClick={handleCardClick}
                 sx={{
                     '&:hover': {
                         transform: 'scale(1.05)',
@@ -45,6 +56,7 @@ const OfferCard = ({offer}: Props) => {
                 </CardContent>
                 <CardActions>
                     <Button
+                        onClick={handleButtonClick}
                         sx={{
                             backgroundColor: `#4b9b4b`,
                             borderRadius:'8px',
@@ -56,10 +68,12 @@ const OfferCard = ({offer}: Props) => {
                                 backgroundColor:'secondary.dark'
                             }
                         }}>
-                        <ShoppingCartOutlinedIcon fontSize={"small"}/>Add to cart
+                        <ShoppingCartOutlinedIcon fontSize={"small"}/>
+                        Add to cart
                     </Button>
                 </CardActions>
             </Card>
+            <CardExtraInfo open={openExtraInfo} setOpen={setOpenExtraInfo} offer={offer}/>
         </Grid>
     );
 };
