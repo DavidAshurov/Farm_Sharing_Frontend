@@ -35,7 +35,7 @@ const AuthInputs = ({mode}: Props) => {
     const [snackBarOpened, setSnackBarOpened] = useState(false)
     const [snackBarMessage, setSnackBarMessage] = useState('')
 
-    const handleSnackBarClose = (event?:React.SyntheticEvent | Event,reason?:string) => {
+    const handleSnackBarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') return;
         setSnackBarOpened(false)
     }
@@ -107,7 +107,8 @@ const AuthInputs = ({mode}: Props) => {
             value: form.nickname,
             setValue: handleInputChange('nickname'),
             error: completionErrors.nickname,
-            cancelError: () => setCompletionErrors(prev => ({...prev, nickname: false}))
+            cancelError: () => setCompletionErrors(prev => ({...prev, nickname: false})),
+            isPassword: false,
         },
         {
             label: 'Email*',
@@ -116,7 +117,8 @@ const AuthInputs = ({mode}: Props) => {
             value: form.email,
             setValue: handleInputChange('email'),
             error: completionErrors.email,
-            cancelError: () => setCompletionErrors(prev => ({...prev, email: false}))
+            cancelError: () => setCompletionErrors(prev => ({...prev, email: false})),
+            isPassword: false,
         },
         {
             label: 'Password*',
@@ -125,7 +127,8 @@ const AuthInputs = ({mode}: Props) => {
             value: form.password,
             setValue: handleInputChange('password'),
             error: completionErrors.password,
-            cancelError: () => setCompletionErrors(prev => ({...prev, password: false}))
+            cancelError: () => setCompletionErrors(prev => ({...prev, password: false})),
+            isPassword: true,
         },
         isSignUp && {
             label: 'Confirm password*',
@@ -134,7 +137,8 @@ const AuthInputs = ({mode}: Props) => {
             value: form.confirmedPassword,
             setValue: handleInputChange('confirmedPassword'),
             error: completionErrors.confirmedPassword,
-            cancelError: () => setCompletionErrors(prev => ({...prev, confirmedPassword: false}))
+            cancelError: () => setCompletionErrors(prev => ({...prev, confirmedPassword: false})),
+            isPassword: true,
         },
         isSignUp && {
             label: 'Phone number',
@@ -143,8 +147,12 @@ const AuthInputs = ({mode}: Props) => {
             value: form.phoneNumber,
             setValue: handleInputChange('phoneNumber'),
             error: false,
+            isPassword: false,
         },
     ].filter(Boolean)
+    if (!isSignUp) {
+        inputFields.forEach(item => item.label = item.label.slice(0, -1))
+    }
 
     return (
         <>
@@ -177,6 +185,7 @@ const AuthInputs = ({mode}: Props) => {
                     setValue={field.setValue}
                     error={field.error}
                     cancelError={field.cancelError}
+                    isPassword={field.isPassword}
                 />
             ))}
             <Button
