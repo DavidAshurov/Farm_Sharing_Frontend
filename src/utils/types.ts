@@ -10,6 +10,11 @@ interface Offer {
     image:string,
 }
 
+interface CartItem {
+    id:number,
+    offer:Offer,
+    quantity:number,
+}
 interface Farm {
     nickname:string,
     city:string,

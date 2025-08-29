@@ -3,6 +3,8 @@ import GradeIcon from '@mui/icons-material/Grade';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {useState} from "react";
 import CardExtraInfo from "./CardExtraInfo.tsx";
+import {useAddItemToCartMutation} from "../../app/api/cartApi.ts";
+import {useSnackBar} from "../../shared/SnackBar.tsx";
 
 interface Props {
     offer: Offer
@@ -10,11 +12,23 @@ interface Props {
 
 const OfferCard = ({offer}: Props) => {
     const [openExtraInfo,setOpenExtraInfo] = useState(false)
+    const {showSnackBar} = useSnackBar()
 
     const handleCardClick = () => setOpenExtraInfo(true)
 
-    const handleButtonClick = (event) => {
+    const [addItemToCart] = useAddItemToCartMutation()
+    const handleButtonClick = async (event) => {
         event.stopPropagation()
+        try {
+            await addItemToCart({offerId:offer.id,quantity:1}).unwrap()
+        } catch (err) {
+            if (err.originalStatus === 400) {
+                showSnackBar(err.data,'error')
+            }
+            if (err.originalStatus === 404) {
+                showSnackBar('This product is sold out. Refresh the page.','error')
+            }
+        }
     }
 
     return (
@@ -57,16 +71,9 @@ const OfferCard = ({offer}: Props) => {
                 <CardActions>
                     <Button
                         onClick={handleButtonClick}
+                        className={'green-button'}
                         sx={{
-                            backgroundColor: `#4b9b4b`,
-                            borderRadius:'8px',
-                            px:'20px',
-                            py:'10px',
                             width:'100%',
-                            fontWeight:'bold',
-                            '&:hover': {
-                                backgroundColor:'secondary.dark'
-                            }
                         }}>
                         <ShoppingCartOutlinedIcon fontSize={"small"}/>
                         Add to cart

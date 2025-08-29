@@ -57,16 +57,9 @@ const MainPage = () => {
                     <Box mt={'30px'}>
                         <Button
                             onClick={() => navigate('/offers')}
+                            className={'green-button'}
                             sx={{
-                                backgroundColor: `#4b9b4b`,
-                                borderRadius: '8px',
-                                px: '20px',
-                                py: '10px',
                                 mr: '20px',
-                                fontWeight: 'bold',
-                                '&:hover': {
-                                    backgroundColor: 'secondary.dark'
-                                }
                             }}>
                             Buy fresh products
                         </Button>

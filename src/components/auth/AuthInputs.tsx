@@ -1,4 +1,4 @@
-import {Alert, Button, FormControlLabel, Radio, RadioGroup, Snackbar} from "@mui/material";
+import {Button, FormControlLabel, Radio, RadioGroup} from "@mui/material";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonIcon from '@mui/icons-material/Person';
@@ -9,6 +9,7 @@ import {useSignInMutation, useSignUpMutation} from "../../app/api/authApi.ts";
 import {useDispatch} from "react-redux";
 import {setToken, setUser} from "../../app/authSlice.ts";
 import {isValidEmail} from "../../utils/functions.ts";
+import {useSnackBar} from "../../shared/SnackBar.tsx";
 
 interface Props {
     mode: 'signUp' | 'signIn'
@@ -32,13 +33,8 @@ const AuthInputs = ({mode}: Props) => {
         password: false,
         confirmedPassword: false,
     })
-    const [snackBarOpened, setSnackBarOpened] = useState(false)
-    const [snackBarMessage, setSnackBarMessage] = useState('')
 
-    const handleSnackBarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') return;
-        setSnackBarOpened(false)
-    }
+    const {showSnackBar} = useSnackBar()
 
     const isSignUp = mode === 'signUp'
 
@@ -64,21 +60,18 @@ const AuthInputs = ({mode}: Props) => {
                     dispatch(setUser(authState.user))
                 } catch (error) {
                     if (error.originalStatus === 401) {
-                        setSnackBarMessage("Email or password isn't correct")
-                        setSnackBarOpened(true)
+                        showSnackBar("Email or password isn't correct",'error')
                     }
                 }
             }
         } else {
             if (!(newErrors.nickname || newErrors.email || newErrors.password || newErrors.confirmedPassword)) {
                 if (form.password !== form.confirmedPassword) {
-                    setSnackBarMessage("Passwords don't match")
-                    setSnackBarOpened(true)
+                    showSnackBar("Passwords don't match",'error')
                     return
                 }
                 if (!isValidEmail(form.email)) {
-                    setSnackBarMessage("Email is not in correct format")
-                    setSnackBarOpened(true)
+                    showSnackBar("Email is not in correct format",'error')
                     return
                 }
                 try {
@@ -91,8 +84,7 @@ const AuthInputs = ({mode}: Props) => {
                     }).unwrap()
                 } catch (error) {
                     if (error.originalStatus === 400) {
-                        setSnackBarMessage(error.data)
-                        setSnackBarOpened(true)
+                        showSnackBar(error.data,'error')
                     }
                 }
             }
@@ -200,20 +192,6 @@ const AuthInputs = ({mode}: Props) => {
             >
                 {isSignUp ? 'Sign up' : 'Sign in'}
             </Button>
-            <Snackbar
-                //anchorOrigin={{vertical: "bottom", horizontal: "center"}}
-                open={snackBarOpened}
-                onClose={handleSnackBarClose}
-                autoHideDuration={7000}
-            >
-                <Alert
-                    onClose={handleSnackBarClose}
-                    severity={"error"}
-                    variant={"filled"}
-                >
-                    {snackBarMessage}
-                </Alert>
-            </Snackbar>
         </>
     );
 };
