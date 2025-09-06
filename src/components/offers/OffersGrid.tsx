@@ -1,7 +1,8 @@
-import {CircularProgress, Grid, Typography} from "@mui/material";
+import {Box, CircularProgress, Grid, Pagination, Typography} from "@mui/material";
 import OfferCard from "./OfferCard.tsx";
 import {useGetAllOffersQuery} from "../../app/api/offerApi.ts";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import {useEffect, useState} from "react";
 
 interface Props {
     searchRequest: string,
@@ -9,13 +10,23 @@ interface Props {
 }
 
 const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
-    const {data = [], isLoading, error} = useGetAllOffersQuery()
+    const [currentPage,setCurrentPage] = useState(1)
 
-    if (isLoading) return <CircularProgress color={"secondary"} size={'5rem'} sx={{mt: '8rem'}}/>
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [chosenCategory,searchRequest]);
+
+    const {data = [] as OffersResponse, isFetching} = useGetAllOffersQuery({
+        pageNumber: currentPage - 1,
+        category: chosenCategory,
+        search: searchRequest,
+    })
+
+    if (isFetching) return <CircularProgress color={"secondary"} size={'5rem'} sx={{mt: '8rem'}}/>
 
     return (
         <>
-            {data.length === 0 ?
+            {data.offers.length === 0 ?
                 <>
                     <Typography
                         variant={'h3'}
@@ -27,14 +38,30 @@ const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
                     <SentimentVeryDissatisfiedIcon color={"secondary"} fontSize={"large"}/>
                 </>
                 :
-                <Grid container spacing={3}
-                      sx={{
-                          p: '1rem',
-                      }}>
-                    <>
-                        {data.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}
-                    </>
-                </Grid>
+                <>
+                    <Grid container spacing={3}
+                          sx={{
+                              p: '1rem',
+                          }}>
+                        <>
+                            {data.offers.map((offer, idx) => <OfferCard key={idx} offer={offer}/>)}
+                        </>
+                    </Grid>
+                    <Box
+                        sx={{
+                            display:'flex',
+                            justifyContent:'center',
+                            my:'1rem'
+                        }}>
+                        <Pagination
+                            count={data.totalPages}
+                            size={"large"}
+                            color={"secondary"}
+                            page={currentPage}
+                            onChange={(_, page) => setCurrentPage(page)}
+                        />
+                    </Box>
+                </>
             }
         </>
     );

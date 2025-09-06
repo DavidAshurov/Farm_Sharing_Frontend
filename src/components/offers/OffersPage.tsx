@@ -6,7 +6,8 @@ import Header from "../Header.tsx";
 
 const OffersPage = () => {
     const [searchRequest, setSearchRequest] = useState('')
-    const [chosenCategory, setChosenCategory] = useState('All products')
+    const [chosenCategory, setChosenCategory] = useState<'All products' | 'Vegetables' | 'Fruits'
+        | 'Herbs' | 'Dairy' | 'Pantry'>('All products')
     return (
         <>
             <Header/>

@@ -9,6 +9,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
 import {useAddItemToCartMutation} from "../../app/api/cartApi.ts";
 import QuantitySelector from "../../shared/QuantitySelector.tsx";
+import AddToCartButton from "../../shared/AddToCartButton.tsx";
 
 interface Props {
     open: boolean,
@@ -18,21 +19,6 @@ interface Props {
 
 const CardExtraInfo = ({open, setOpen, offer}: Props) => {
     const [amount, setAmount] = useState(1)
-    const {showSnackBar} = useSnackBar()
-    const [addItemToCart] = useAddItemToCartMutation()
-
-    const handleButtonClick = async () => {
-        try {
-            await addItemToCart({offerId:offer.id,quantity:amount}).unwrap()
-        } catch (err) {
-            if (err.originalStatus === 400) {
-                showSnackBar(err.data,'error')
-            }
-            if (err.originalStatus === 404) {
-                showSnackBar('This product is sold out. Refresh the page.','error')
-            }
-        }
-    }
 
     return (
         <Dialog open={open} onClose={() => setOpen(false)}>
@@ -96,15 +82,7 @@ const CardExtraInfo = ({open, setOpen, offer}: Props) => {
                                 Available: {offer.amount}
                             </Typography>
                             <Typography my={'1rem'} fontWeight={"bold"}>Total: ₪{amount*offer.price}</Typography>
-                            <Button
-                                onClick={handleButtonClick}
-                                className={'green-button'}
-                                sx={{
-                                    width:'100%',
-                                }}>
-                                <ShoppingCartOutlinedIcon fontSize={"small"}/>
-                                Add {amount} to cart
-                            </Button>
+                            <AddToCartButton offerId={offer.id} quantity={amount}/>
                         </Box>
                     </Box>
                 </Box>

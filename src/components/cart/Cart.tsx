@@ -26,7 +26,7 @@ interface Props {
 
 const Cart = ({isOpen, handleClose, cart}: Props) => {
     const [clearCart] = useClearCartMutation()
-    const total = cart.reduce((acc, item) => acc + item.quantity * item.offer.price, 0)
+    const total = cart.reduce((acc, item) => acc + item.quantity * item.offer.price, 0).toFixed(1)
 
     const handleClearCart = async () => {
         try {

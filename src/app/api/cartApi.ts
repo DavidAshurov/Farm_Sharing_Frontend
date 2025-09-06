@@ -17,7 +17,7 @@ const cartApi = rootApi.injectEndpoints({
                 const patchResult = dispatch(
                     cartApi.util.updateQueryData('getCart',undefined, (cachedCart) => {
                         if (!cachedCart.some(item => item.offer.id === offerId)) {
-                            cachedCart.push({id:0,quantity:0,offer:{title:'',price:0,amount:0}})
+                            cachedCart.push({id:offerId,quantity:0,offer:{title:'',price:0,amount:0}})
                         }
                     })
                 )

@@ -5,6 +5,7 @@ import {useState} from "react";
 import CardExtraInfo from "./CardExtraInfo.tsx";
 import {useAddItemToCartMutation} from "../../app/api/cartApi.ts";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
+import AddToCartButton from "../../shared/AddToCartButton.tsx";
 
 interface Props {
     offer: Offer
@@ -12,27 +13,10 @@ interface Props {
 
 const OfferCard = ({offer}: Props) => {
     const [openExtraInfo,setOpenExtraInfo] = useState(false)
-    const {showSnackBar} = useSnackBar()
-
     const handleCardClick = () => setOpenExtraInfo(true)
 
-    const [addItemToCart] = useAddItemToCartMutation()
-    const handleButtonClick = async (event) => {
-        event.stopPropagation()
-        try {
-            await addItemToCart({offerId:offer.id,quantity:1}).unwrap()
-        } catch (err) {
-            if (err.originalStatus === 400) {
-                showSnackBar(err.data,'error')
-            }
-            if (err.originalStatus === 404) {
-                showSnackBar('This product is sold out. Refresh the page.','error')
-            }
-        }
-    }
-
     return (
-        <Grid size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2.4}}>
+        <Grid size={{xs: 12, sm: 6, md: 3, lg: 2.4, xl: 2}}>
             <Card
                 onClick={handleCardClick}
                 sx={{
@@ -69,15 +53,7 @@ const OfferCard = ({offer}: Props) => {
                     </Box>
                 </CardContent>
                 <CardActions>
-                    <Button
-                        onClick={handleButtonClick}
-                        className={'green-button'}
-                        sx={{
-                            width:'100%',
-                        }}>
-                        <ShoppingCartOutlinedIcon fontSize={"small"}/>
-                        Add to cart
-                    </Button>
+                    <AddToCartButton offerId={offer.id} quantity={1}/>
                 </CardActions>
             </Card>
             <CardExtraInfo open={openExtraInfo} setOpen={setOpenExtraInfo} offer={offer}/>
