@@ -22,7 +22,6 @@ const AddToCartButton = ({offerId, quantity}:Props) => {
         try {
             setIsAdding(true)
             await addItemToCart({offerId,quantity}).unwrap()
-            setIsAdding(false)
         } catch (err) {
             if (err.originalStatus === 400) {
                 showSnackBar(err.data,'error')
@@ -30,8 +29,8 @@ const AddToCartButton = ({offerId, quantity}:Props) => {
             if (err.originalStatus === 404) {
                 showSnackBar('This product is sold out. Refresh the page.','error')
             }
-            setIsAdding(false)
         }
+        setIsAdding(false)
     }
     return (
         <Button

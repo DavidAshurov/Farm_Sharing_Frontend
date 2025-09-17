@@ -1,15 +1,15 @@
 import {Box} from "@mui/material";
 import SearchBar from "./SearchBar.tsx";
 import Categories from "./Categories.tsx";
+import type {Dispatch, SetStateAction} from "react";
+import SortingMenu from "./SortingMenu.tsx";
 
 interface Props {
-    searchRequest:string,
-    setSearchRequest: (value: (((prevState: string) => string) | string)) => void,
-    chosenCategory:string,
-    setChosenCategory: (value: (((prevState: string) => string) | string)) => void,
+    offersRequestParams:OffersRequest,
+    setOffersRequestParams: Dispatch<SetStateAction<OffersRequest>>,
 }
 
-const FilterBar = ({searchRequest,setSearchRequest,chosenCategory,setChosenCategory}:Props) => {
+const FilterBar = ({offersRequestParams,setOffersRequestParams}:Props) => {
     return (
         <Box
             p={'1.5rem 1rem'}
@@ -20,8 +20,11 @@ const FilterBar = ({searchRequest,setSearchRequest,chosenCategory,setChosenCateg
             flexDirection={"row"}
             borderBottom={'1px solid grey'}
         >
-            <SearchBar searchRequest={searchRequest} setSearchRequest={setSearchRequest}/>
-            <Categories chosenCategory={chosenCategory} setChosenCategory={setChosenCategory}/>
+            <SearchBar offersRequestParams={offersRequestParams}
+                       setOffersRequestParams={setOffersRequestParams}/>
+            <Categories offersRequestParams={offersRequestParams}
+                        setOffersRequestParams={setOffersRequestParams}/>
+            <SortingMenu setOffersRequestParams={setOffersRequestParams}/>
         </Box>
     );
 };

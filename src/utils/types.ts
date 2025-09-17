@@ -19,9 +19,11 @@ interface OffersResponse {
 }
 
 interface OffersRequest {
-    pageNumber:number,
-    category:string,
-    search:string,
+    pageNumber: number,
+    category: 'All products' | 'Vegetables' | 'Fruits' | 'Herbs' | 'Dairy' | 'Pantry',
+    search: string,
+    sortField: 'title' | 'price',
+    sortDirection: 'asc' | 'desc',
 }
 
 interface CartItem {

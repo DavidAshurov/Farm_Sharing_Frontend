@@ -5,22 +5,23 @@ import {Box} from "@mui/material";
 import Header from "../Header.tsx";
 
 const OffersPage = () => {
-    const [searchRequest, setSearchRequest] = useState('')
-    const [chosenCategory, setChosenCategory] = useState<'All products' | 'Vegetables' | 'Fruits'
-        | 'Herbs' | 'Dairy' | 'Pantry'>('All products')
+    const [offersRequestParams, setOffersRequestParams] = useState<OffersRequest>({
+        pageNumber:0,
+        search:'',
+        category:'All products',
+        sortDirection:'asc',
+        sortField:'title'
+    })
     return (
         <>
             <Header/>
             <Box width={'100vw'}>
                 <FilterBar
-                    searchRequest={searchRequest}
-                    setSearchRequest={setSearchRequest}
-                    chosenCategory={chosenCategory}
-                    setChosenCategory={setChosenCategory}
+                    offersRequestParams={offersRequestParams}
+                    setOffersRequestParams={setOffersRequestParams}
                 />
                 <OffersGrid
-                    searchRequest={searchRequest}
-                    chosenCategory={chosenCategory}
+                    offersRequestParams={offersRequestParams}
                 />
             </Box>
         </>

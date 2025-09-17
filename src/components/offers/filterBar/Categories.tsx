@@ -1,19 +1,20 @@
 import {Box, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import type {Dispatch, SetStateAction} from "react";
 
 interface Props {
-    chosenCategory: string,
-    setChosenCategory: (value: (((prevState: string) => string) | string)) => void,
+    offersRequestParams: OffersRequest,
+    setOffersRequestParams: Dispatch<SetStateAction<OffersRequest>>,
 }
 
-const Categories = ({chosenCategory, setChosenCategory}: Props) => {
+const Categories = ({offersRequestParams, setOffersRequestParams}: Props) => {
     const categories = ['All products', 'Vegetables', 'Fruits', 'Herbs', 'Dairy', 'Pantry']
 
-    const handleCategory = (event, newCategory) => {
-        setChosenCategory(newCategory === null ? 'All products' : newCategory)
+    const handleCategory = (_, newCategory) => {
+        setOffersRequestParams(prev => ({...prev, category: newCategory === null ? 'All products' : newCategory}))
     }
     return (
         <ToggleButtonGroup
-            value={chosenCategory}
+            value={offersRequestParams.category}
             exclusive={true}
             onChange={handleCategory}
             color={"secondary"}
@@ -28,8 +29,8 @@ const Categories = ({chosenCategory, setChosenCategory}: Props) => {
                                           borderRadius: '1.5rem',
                                           px: '0.75rem',
                                           color: 'black',
-                                          mr: '1rem',
-                                          mt:'0.7rem',
+                                          mr: '0.5rem',
+                                          mt: '0.7rem',
                                           fontWeight: 'bold',
                                           '&.Mui-selected': {
                                               backgroundColor: 'secondary.main',

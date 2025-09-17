@@ -5,21 +5,19 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import {useEffect, useState} from "react";
 
 interface Props {
-    searchRequest: string,
-    chosenCategory: string
+    offersRequestParams:OffersRequest,
 }
 
-const OffersGrid = ({searchRequest, chosenCategory}: Props) => {
+const OffersGrid = ({offersRequestParams}: Props) => {
     const [currentPage,setCurrentPage] = useState(1)
 
     useEffect(() => {
         setCurrentPage(1)
-    }, [chosenCategory,searchRequest]);
+    }, [offersRequestParams]);
 
     const {data = [] as OffersResponse, isFetching} = useGetAllOffersQuery({
+        ...offersRequestParams,
         pageNumber: currentPage - 1,
-        category: chosenCategory,
-        search: searchRequest,
     })
 
     if (isFetching) return <CircularProgress color={"secondary"} size={'5rem'} sx={{mt: '8rem'}}/>
