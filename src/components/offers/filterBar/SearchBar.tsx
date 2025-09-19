@@ -1,18 +1,19 @@
 import {InputAdornment, TextField} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import type {Dispatch, SetStateAction} from "react";
 
 interface Props {
-    searchRequest:string,
-    setSearchRequest: (value: (((prevState: string) => string) | string)) => void,
+    offersRequestParams: OffersRequest,
+    setOffersRequestParams: Dispatch<SetStateAction<OffersRequest>>,
 }
-const SearchBar = ({searchRequest,setSearchRequest}:Props) => {
+const SearchBar = ({offersRequestParams,setOffersRequestParams}:Props) => {
     return (
         <>
             <TextField
                 id={'searchRequest'}
                 placeholder={"Search products, farmers or locations..."}
-                value={searchRequest}
-                onChange={(event) => setSearchRequest(event.target.value)}
+                value={offersRequestParams.search}
+                onChange={(event) => setOffersRequestParams(prev => ({...prev,search:event.target.value}))}
                 slotProps={{
                     input:{
                         startAdornment:<InputAdornment position={"start"}>
@@ -21,7 +22,7 @@ const SearchBar = ({searchRequest,setSearchRequest}:Props) => {
                     }
                 }}
                 sx={{
-                    width:'25rem',
+                    width:'22rem',
                 }}
             />
         </>
