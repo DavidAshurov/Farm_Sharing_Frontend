@@ -16,7 +16,7 @@ const OfferCard = ({offer}: Props) => {
     const handleCardClick = () => setOpenExtraInfo(true)
 
     return (
-        <Grid size={{xs: 12, sm: 6, md: 3, lg: 2.4, xl: 2}}>
+        <Grid size={{xs: 12, sm: 6, md: 3, lg: 2.4}}>
             <Card
                 onClick={handleCardClick}
                 sx={{

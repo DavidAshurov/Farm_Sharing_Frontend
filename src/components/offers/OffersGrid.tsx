@@ -19,6 +19,8 @@ const OffersGrid = ({offersRequestParams}: Props) => {
         ...offersRequestParams,
         pageNumber: currentPage - 1,
     })
+    const firstOfferNumberOnPage = data.pageNumber * data.pageSize + 1
+    const lastOfferNumberOnPage = data.pageNumber * data.pageSize + data.numberOfElements
 
     if (isFetching) return <CircularProgress color={"secondary"} size={'5rem'} sx={{mt: '8rem'}}/>
 
@@ -37,6 +39,9 @@ const OffersGrid = ({offersRequestParams}: Props) => {
                 </>
                 :
                 <>
+                    <Typography color={'grey'} align={"left"} p={'1rem 0 0 1rem'}>
+                        Showing {firstOfferNumberOnPage}-{lastOfferNumberOnPage} of {data.totalElements}
+                    </Typography>
                     <Grid container spacing={3}
                           sx={{
                               p: '1rem',

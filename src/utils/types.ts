@@ -13,6 +13,7 @@ interface Offer {
 interface OffersResponse {
     offers: Offer[],
     pageNumber: number,
+    pageSize: number,
     numberOfElements: number,
     totalPages: number,
     totalElements: number,
@@ -24,6 +25,8 @@ interface OffersRequest {
     search: string,
     sortField: 'title' | 'price',
     sortDirection: 'asc' | 'desc',
+    minPrice:number,
+    maxPrice:number,
 }
 
 interface CartItem {

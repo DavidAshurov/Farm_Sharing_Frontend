@@ -10,7 +10,9 @@ const OffersPage = () => {
         search:'',
         category:'All products',
         sortDirection:'asc',
-        sortField:'title'
+        sortField:'title',
+        minPrice:0,
+        maxPrice:0,
     })
     return (
         <>
