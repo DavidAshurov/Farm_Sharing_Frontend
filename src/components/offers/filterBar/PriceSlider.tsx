@@ -1,5 +1,5 @@
 import {Box, Slider, Typography} from "@mui/material";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import {useDebounce} from "../../../utils/functions.ts";
 
 interface Props {
@@ -14,10 +14,8 @@ const PriceSlider = ({offersRequestParams, setOffersRequestParams, minPrice, max
         offersRequestParams.minPrice
             ? [offersRequestParams.minPrice, offersRequestParams.maxPrice]
             : [minPrice, maxPrice])
-    const debouncedValues = useDebounce(sliderValues,1000)
-    useEffect(() => {
-        setOffersRequestParams(prev => ({...prev,minPrice:debouncedValues[0],maxPrice:debouncedValues[1]}))
-    }, [debouncedValues]);
+    const debouncedValues = useDebounce(sliderValues,500)
+
     const marks = [
         {
             value: minPrice,
@@ -30,7 +28,9 @@ const PriceSlider = ({offersRequestParams, setOffersRequestParams, minPrice, max
     ]
     const minDistance = (maxPrice - minPrice) / 5
 
+    const hasUserChangedValues = useRef(false)
     const handleChange = (event: Event, value: number[], activeThumb: number) => {
+        if (!hasUserChangedValues.current) hasUserChangedValues.current = true
         if (value[1] - value[0] < minDistance) {
             if (activeThumb === 0) {
                 const clamped = Math.min(value[0], maxPrice - minDistance)
@@ -42,7 +42,13 @@ const PriceSlider = ({offersRequestParams, setOffersRequestParams, minPrice, max
         } else {
             setSliderValues(value)
         }
+
     }
+
+    useEffect(() => {
+        if (!hasUserChangedValues.current) return
+        setOffersRequestParams(prev => ({...prev,minPrice:debouncedValues[0],maxPrice:debouncedValues[1]}))
+    }, [debouncedValues]);
 
     return (
         <Box p={'0.5rem 1.5rem'} width={'15rem'}>

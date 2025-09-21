@@ -1,6 +1,8 @@
 import {Button, Menu, MenuItem} from "@mui/material";
 import {Dispatch, SetStateAction, useRef, useState} from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const sortOptions = [
     {value: 'title_asc', label: 'Title: A-Z'},
@@ -10,10 +12,11 @@ const sortOptions = [
 ]
 
 interface Props {
+    offersRequestParams: OffersRequest,
     setOffersRequestParams: Dispatch<SetStateAction<OffersRequest>>,
 }
 
-const SortingMenu = ({setOffersRequestParams}: Props) => {
+const SortingMenu = ({offersRequestParams, setOffersRequestParams}: Props) => {
     const [open, setOpen] = useState(false)
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -27,7 +30,6 @@ const SortingMenu = ({setOffersRequestParams}: Props) => {
         const sortField = value.split('_')[0] as 'price' | 'title'
         const sortDir = value.split('_')[1] as 'asc' | 'desc'
         setOffersRequestParams(prev => ({...prev, sortField: sortField, sortDirection: sortDir}))
-        handleClose()
     }
 
     return (
@@ -59,7 +61,11 @@ const SortingMenu = ({setOffersRequestParams}: Props) => {
                         <MenuItem key={opt.value}
                                   onClick={() => handleSelect(opt.value)}
                         >
-                            {opt.label}
+                            <>
+                                {opt.label}
+                                {opt.value === `${offersRequestParams.sortField}_${offersRequestParams.sortDirection}`
+                                    && <CheckCircleIcon color={"secondary"} sx={{ml:'0.5rem'}}/>}
+                            </>
                         </MenuItem>)}
                 </>
             </Menu>
