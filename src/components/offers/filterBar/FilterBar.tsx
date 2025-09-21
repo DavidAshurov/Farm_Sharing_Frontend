@@ -39,7 +39,8 @@ const FilterBar = ({offersRequestParams, setOffersRequestParams}: Props) => {
             <FiltersMenu offersRequestParams={offersRequestParams}
                          setOffersRequestParams={setOffersRequestParams}
                          minPrice={minMaxPrice.min} maxPrice={minMaxPrice.max}/>
-            <SortingMenu setOffersRequestParams={setOffersRequestParams}/>
+            <SortingMenu offersRequestParams={offersRequestParams}
+                         setOffersRequestParams={setOffersRequestParams}/>
         </Box>
     );
 };
