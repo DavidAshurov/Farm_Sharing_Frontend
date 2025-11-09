@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {useState} from "react";
 import Cart from "./cart/Cart.tsx";
 import {useGetCartQuery} from "../app/api/cartApi.ts";
+import PersonalAreaMenu from "./personal-area/PersonalAreaMenu.tsx";
 
 const Header = () => {
     const [cartIsOpen, setCartIsOpen] = useState(false)
@@ -28,9 +29,7 @@ const Header = () => {
                         FarmSharing
                     </Typography>
                     <Box>
-                        <IconButton color={"secondary"}>
-                            <PersonIcon/>
-                        </IconButton>
+                        <PersonalAreaMenu/>
                         {isClient &&
                             <IconButton color={"secondary"}
                                         onClick={() => setCartIsOpen(prev => !prev)}>

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export const isValidEmail = (email: string) =>
+export const isEmailValid = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 export function useDebounce<T>(value:T, delay:number): T {

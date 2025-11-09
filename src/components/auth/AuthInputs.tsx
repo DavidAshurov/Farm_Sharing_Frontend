@@ -8,8 +8,9 @@ import {useState} from "react";
 import {useSignInMutation, useSignUpMutation} from "../../app/api/authApi.ts";
 import {useDispatch} from "react-redux";
 import {setToken, setUser} from "../../app/authSlice.ts";
-import {isValidEmail} from "../../utils/functions.ts";
+import {isEmailValid} from "../../utils/functions.ts";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     mode: 'signUp' | 'signIn'
@@ -17,6 +18,7 @@ interface Props {
 
 const AuthInputs = ({mode}: Props) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [signIn] = useSignInMutation()
     const [signUp] = useSignUpMutation()
     const [form, setForm] = useState({
@@ -58,6 +60,7 @@ const AuthInputs = ({mode}: Props) => {
                     }).unwrap()
                     dispatch(setToken(authState.accessToken))
                     dispatch(setUser(authState.user))
+                    navigate('/offers')
                 } catch (error) {
                     if (error.originalStatus === 401) {
                         showSnackBar("Email or password isn't correct",'error')
@@ -70,7 +73,7 @@ const AuthInputs = ({mode}: Props) => {
                     showSnackBar("Passwords don't match",'error')
                     return
                 }
-                if (!isValidEmail(form.email)) {
+                if (!isEmailValid(form.email)) {
                     showSnackBar("Email is not in correct format",'error')
                     return
                 }
@@ -82,6 +85,7 @@ const AuthInputs = ({mode}: Props) => {
                         password: form.password,
                         phoneNumber: form.phoneNumber || null,
                     }).unwrap()
+                    navigate('/offers')
                 } catch (error) {
                     if (error.originalStatus === 400) {
                         showSnackBar(error.data,'error')
