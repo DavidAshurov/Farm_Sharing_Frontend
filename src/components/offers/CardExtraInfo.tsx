@@ -81,7 +81,7 @@ const CardExtraInfo = ({open, setOpen, offer}: Props) => {
                             <Typography mt={'0.5rem'} ml={'6.5rem'} color={'grey'} fontSize={"small"}>
                                 Available: {offer.amount}
                             </Typography>
-                            <Typography my={'1rem'} fontWeight={"bold"}>Total: ₪{amount*offer.price}</Typography>
+                            <Typography my={'1rem'} fontWeight={"bold"}>Total: ₪{(amount*offer.price).toFixed(1)}</Typography>
                             <AddToCartButton offerId={offer.id} quantity={amount}/>
                         </Box>
                     </Box>
