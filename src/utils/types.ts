@@ -59,6 +59,14 @@ interface NewUserDto {
     phoneNumber: string | null,
 }
 
+interface UpdateUserDto {
+    nickname: string,
+    phoneNumber: string | null,
+    email: string,
+    city: string | null,
+    address: string | null,
+}
+
 interface Credentials {
     email: string,
     password: string,

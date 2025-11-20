@@ -3,6 +3,7 @@ import OfferCard from "./OfferCard.tsx";
 import {useGetAllOffersQuery} from "../../app/api/offerApi.ts";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import {useEffect, useState} from "react";
+import ErrorPage from "../../shared/ErrorPage.tsx";
 
 interface Props {
     offersRequestParams:OffersRequest,
@@ -15,7 +16,7 @@ const OffersGrid = ({offersRequestParams}: Props) => {
         setCurrentPage(1)
     }, [offersRequestParams]);
 
-    const {data = [] as OffersResponse, isFetching} = useGetAllOffersQuery({
+    const {data = {} as OffersResponse, isFetching} = useGetAllOffersQuery({
         ...offersRequestParams,
         pageNumber: currentPage - 1,
     })
@@ -27,16 +28,7 @@ const OffersGrid = ({offersRequestParams}: Props) => {
     return (
         <>
             {data.offers.length === 0 ?
-                <>
-                    <Typography
-                        variant={'h3'}
-                        mt={'8rem'}
-                        color={"secondary"}
-                    >
-                        No products found
-                    </Typography>
-                    <SentimentVeryDissatisfiedIcon color={"secondary"} fontSize={"large"}/>
-                </>
+                <ErrorPage message={'No products found'}/>
                 :
                 <>
                     <Typography color={'grey'} align={"left"} p={'1rem 0 0 1rem'}>
