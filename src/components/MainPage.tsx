@@ -63,21 +63,6 @@ const MainPage = () => {
                             }}>
                             Buy fresh products
                         </Button>
-                        <Button
-                            onClick={() => navigate('/auth')}
-                            sx={{
-                                backgroundColor: `#fefdfd`,
-                                color: '#4b9b4b',
-                                borderRadius: '8px',
-                                px: '20px',
-                                py: '10px',
-                                fontWeight: 'bold',
-                                '&:hover': {
-                                    backgroundColor: 'primary.dark',
-                                }
-                            }}>
-                            Start selling
-                        </Button>
                     </Box>
                 </Box>
             </Box>

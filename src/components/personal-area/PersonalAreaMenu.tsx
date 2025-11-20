@@ -6,9 +6,11 @@ import {useDispatch} from "react-redux";
 import {logOut} from "../../app/authSlice.ts";
 import {useLogoutMutation} from "../../app/api/authApi.ts";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
+import {useNavigate} from "react-router-dom";
 
 const PersonalAreaMenu = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [logout] = useLogoutMutation()
     const {showSnackBar} = useSnackBar()
     const [open, setOpen] = useState(false)
@@ -45,7 +47,7 @@ const PersonalAreaMenu = () => {
                 anchorEl={buttonRef.current}
 
             >
-                <MenuItem>
+                <MenuItem onClick={() => navigate('/personal-area')}>
                     <Typography fontWeight={"bold"}>Personal Area</Typography>
                 </MenuItem>
                 <MenuItem onClick={() => handleLogout()}>
