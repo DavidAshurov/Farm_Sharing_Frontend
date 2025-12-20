@@ -8,7 +8,7 @@ const userApi = rootApi.injectEndpoints({
         updateUserInfo: build.mutation<User,UpdateUserDto>({
             query: (dto) => ({
                 url:'/user',
-                method:'PUT',
+                method:'PATCH',
                 body:dto,
             })
         })

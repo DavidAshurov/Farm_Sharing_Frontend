@@ -15,3 +15,8 @@ export function useDebounce<T>(value:T, delay:number): T {
 
     return debouncedValue
 }
+
+export const getChangedFields = (orig, updated) =>
+    Object.fromEntries(
+        Object.entries(updated).filter(([key,value]) => value !== orig[key])
+    )
