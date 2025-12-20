@@ -49,6 +49,7 @@ interface User {
     email: string,
     role: string,
     rating: number,
+    avatar:string,
 }
 
 interface NewUserDto {
@@ -56,15 +57,16 @@ interface NewUserDto {
     nickname: string,
     email: string,
     password: string,
-    phoneNumber: string | null,
+    phoneNumber: string,
 }
 
 interface UpdateUserDto {
-    nickname: string,
-    phoneNumber: string | null,
-    email: string,
-    city: string | null,
-    address: string | null,
+    nickname?: string,
+    phoneNumber?: string,
+    email?: string,
+    city?: string,
+    address?: string,
+    avatarTmpKey?:string,
 }
 
 interface Credentials {

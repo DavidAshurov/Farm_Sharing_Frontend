@@ -17,7 +17,7 @@ const FilterBar = ({offersRequestParams, setOffersRequestParams}: Props) => {
     const {data} = useGetMinMaxPriceQuery()
 
     useEffect(() => {
-        if (data) {
+        if (data && typeof data.min === "number" && typeof data.max === "number") {
             setMinMaxPrice(data)
         }
     }, [data]);

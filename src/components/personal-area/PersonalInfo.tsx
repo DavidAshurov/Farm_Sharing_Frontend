@@ -1,55 +1,97 @@
-import {Box, Button, Divider, IconButton, Paper, Tooltip, Typography, Zoom} from "@mui/material";
+import {Box, CircularProgress, Divider, IconButton, Paper, Tooltip, Typography, Zoom} from "@mui/material";
 import EditableInfoLine from "./EditableInfoLine.tsx";
-import {useSelector} from "react-redux";
-import ErrorPage from "../../shared/ErrorPage.tsx";
+import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {useUpdateUserInfoMutation} from "../../app/api/userApi.ts";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
+import PersonalAvatar from "./PersonalAvatar.tsx";
+import {useGetUploadUrlMutation} from "../../app/api/imagesApi.ts";
+import {getChangedFields} from "../../utils/functions.ts";
+import {setUser} from "../../app/authSlice.ts";
+
+export type AvatarState = { type: 'unchanged' } | { type: 'removed' } | { type: 'new', file: File, preview: string }
 
 const PersonalInfo = () => {
-    const [editMode, setEditMode] = useState(false)
-    const [triggerUpdate] = useUpdateUserInfoMutation()
     const {showSnackBar} = useSnackBar()
-    const user = useSelector(state => state.auth.user)
-    const [userInfo, setUserInfo] = useState<UpdateUserDto>({
-        address: user?.address,
-        city: user?.city,
-        email: user?.email,
-        nickname: user?.nickname,
-        phoneNumber: user?.phoneNumber,
-    })
+    const dispatch = useDispatch()
+    const [triggerUpdate] = useUpdateUserInfoMutation()
+    const [getUploadUrl] = useGetUploadUrlMutation()
 
+    const user = useSelector(state => state.auth.user)
+
+    const [isSaving, setIsSaving] = useState(false)
+    const [editMode, setEditMode] = useState(false)
+    const [avatar, setAvatar] = useState<AvatarState>({type: 'unchanged'})
+    const [userUpdateInfo, setUserUpdateInfo] = useState<UpdateUserDto>({
+        address: user.address,
+        city: user.city,
+        email: user.email,
+        nickname: user.nickname,
+        phoneNumber: user.phoneNumber,
+    })
     const handleSave = async () => {
+        if (isSaving) return
         try {
-            await triggerUpdate(userInfo).unwrap()
+            setIsSaving(true)
+            const changedFields = getChangedFields(user, userUpdateInfo)
+            const payload: Partial<UpdateUserDto> = {...changedFields}
+            if (avatar.type === 'new') {
+                const {uploadUrl, tmpUrl} = await getUploadUrl(`avatars/${avatar.file.name}`).unwrap()
+                await fetch(uploadUrl, {
+                    method: 'PUT',
+                    body: avatar.file,
+                    headers: {
+                        'Content-Type': avatar.file.type,
+                    }
+                })
+                payload.avatarTmpKey = tmpUrl
+            }
+            if (avatar.type === 'removed' && user.avatar) {
+                payload.avatarTmpKey = ''
+            }
+            if (Object.keys(payload).length === 0) {
+                showSnackBar('Nothing changed', 'info')
+                setEditMode(false)
+                return
+            }
+            const updatedUser = await triggerUpdate(payload).unwrap()
+            dispatch(setUser(updatedUser))
             setEditMode(false)
-            showSnackBar('Your personal information is updated successfully','success')
+            setAvatar({type: 'unchanged'})
+            showSnackBar('Your personal information is updated successfully', 'success')
         } catch (err) {
             if (err.originalStatus === 400) {
-                showSnackBar(err.data,'error')
+                showSnackBar(err.data, 'error')
+            } else {
+                console.log(err)
             }
+        } finally {
+            setIsSaving(false)
         }
     }
 
     return (
-        <>
-            {user !== null ?
-                <Paper elevation={1} sx={{m: '1rem', p: '1rem', textAlign: 'left'}}>
-                    <Box sx={{display: 'flex', alignItems: 'center'}} gap={1}>
-                        <Typography variant={'h5'}>Personal information</Typography>
-                        <Tooltip title={editMode ? 'Save' : 'Edit'}
-                                 placement={'right'}
-                                 arrow
-                                 disableInteractive
-                                 slots={{
-                                     transition: Zoom,
-                                 }}>
+        <Paper elevation={1} sx={{m: '1rem', p: '1rem', textAlign: 'left'}}>
+            <Box sx={{display: 'flex', alignItems: 'center'}} gap={1}>
+                <Typography variant={'h5'}>Personal information</Typography>
+                <Tooltip title={editMode ? 'Save' : 'Edit'}
+                         placement={'right'}
+                         arrow
+                         disableInteractive
+                         slots={{
+                             transition: Zoom,
+                         }}>
                             <span>
                                 {editMode ?
-                                    <IconButton onClick={handleSave} color={"secondary"}>
-                                        <CheckBoxIcon/>
+                                    <IconButton onClick={handleSave} color={"secondary"} disabled={isSaving}>
+                                        <span>
+                                        {isSaving ?
+                                            <CircularProgress color={"secondary"} size={22}/> :
+                                            <CheckBoxIcon/>
+                                        }
+                                        </span>
                                     </IconButton>
                                     :
                                     <IconButton onClick={() => setEditMode(true)}>
@@ -57,28 +99,29 @@ const PersonalInfo = () => {
                                     </IconButton>
                                 }
                             </span>
-                        </Tooltip>
-                    </Box>
-                    <Divider/>
-                    <Box sx={{my: '2rem'}}>
-                        <>
-                            {
-                                ['Nickname', 'PhoneNumber', 'City', 'Address', 'Email'].map(key =>
-                                    <EditableInfoLine title={key}
-                                                      value={userInfo[key.charAt(0).toLowerCase() + key.slice(1)]}
-                                                      disabled={!editMode}
-                                                      key={key}
-                                                      setValue={(value:string) =>
-                                                          setUserInfo(prev => ({...prev, [key.charAt(0).toLowerCase() + key.slice(1)]:value}))}
-                                    />)
-                            }
-                        </>
-                    </Box>
-                </Paper>
-                :
-                <ErrorPage message={'You don\'t have access to this page'}/>
-            }
-        </>
+                </Tooltip>
+            </Box>
+            <Divider/>
+            <PersonalAvatar editMode={editMode} currAvatar={user.avatar}
+                            avatar={avatar} setAvatar={setAvatar}/>
+            <Box sx={{my: '2rem'}}>
+                <>
+                    {
+                        ['Nickname', 'PhoneNumber', 'City', 'Address', 'Email'].map(key =>
+                            <EditableInfoLine title={key}
+                                              value={userUpdateInfo[key.charAt(0).toLowerCase() + key.slice(1)]}
+                                              disabled={!editMode}
+                                              key={key}
+                                              setValue={(value: string) =>
+                                                  setUserUpdateInfo(prev => ({
+                                                      ...prev,
+                                                      [key.charAt(0).toLowerCase() + key.slice(1)]: value
+                                                  }))}
+                            />)
+                    }
+                </>
+            </Box>
+        </Paper>
     )
 };
 
