@@ -18,9 +18,6 @@ const EditableInfoLine = ({title, value, disabled, setValue}: Props) => {
                    sx={{
                        width: '12rem',
                        mr:'1rem',
-                       "& .MuiInputLabel-root.Mui-focused": {
-                           color: "secondary.main",
-                       },
                    }}
                    onChange={e => setValue(e.target.value)}
         />

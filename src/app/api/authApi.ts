@@ -1,4 +1,5 @@
 import {rootApi} from "./rootApi.ts";
+import type {AuthState, Credentials, NewUserDto} from "../../utils/types/userTypes.ts";
 
 const authApi = rootApi.injectEndpoints({
     endpoints: (build) => ({

@@ -2,7 +2,7 @@ import {createContext, ReactNode, useContext, useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
 
 type SnackBarContextType = {
-    showSnackBar: (message:string,severity?:'success'|'error'|'info'|'warning') => void;
+    showSnackBar: (message:string,severity?:'success'|'error'|'info'|'warning', hideDuration:number) => void;
 }
 
 const SnackBarContext = createContext<SnackBarContextType|undefined>(undefined)
@@ -18,10 +18,12 @@ export const useSnackBar = () => {
 export const SnackBarProvider = ({children} : {children: ReactNode}) => {
     const [open,setOpen] = useState(false)
     const [message,setMessage] = useState('')
+    const [hideDuration, setHideDuration] = useState(0)
     const [severity,setSeverity] = useState<'success'|'error'|'info'|'warning'>('info')
 
-    const showSnackBar = (msg:string,sev:'success'|'error'|'info'|'warning' = 'info') => {
+    const showSnackBar = (msg:string,sev:'success'|'error'|'info'|'warning' = 'info', hideDur:number = 7000) => {
         setMessage(msg)
+        setHideDuration(hideDur)
         setSeverity(sev)
         setOpen(true)
     }
@@ -37,7 +39,7 @@ export const SnackBarProvider = ({children} : {children: ReactNode}) => {
             <Snackbar
                 open={open}
                 onClose={handleClose}
-                autoHideDuration={7000}
+                autoHideDuration={hideDuration}
             >
                 <Alert
                     onClose={handleClose}

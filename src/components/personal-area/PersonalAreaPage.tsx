@@ -1,8 +1,9 @@
 import {Box} from "@mui/material";
-import PersonalInfo from "./PersonalInfo.tsx";
+import PersonalInfo from "./general/PersonalInfo.tsx";
 import Header from "../Header.tsx";
 import {useSelector} from "react-redux";
 import ErrorPage from "../../shared/ErrorPage.tsx";
+import OffersList from "./farm/OffersList.tsx";
 
 const PersonalAreaPage = () => {
     const user = useSelector(state => state.auth.user)
@@ -13,6 +14,9 @@ const PersonalAreaPage = () => {
                     <Header/>
                     <Box>
                         <PersonalInfo/>
+                        <>
+                            {user.role === 'FARM' && <OffersList/>}
+                        </>
                     </Box>
                 </>
                 :

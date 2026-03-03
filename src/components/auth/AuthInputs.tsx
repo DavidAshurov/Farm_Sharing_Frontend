@@ -8,7 +8,7 @@ import {useState} from "react";
 import {useSignInMutation, useSignUpMutation} from "../../app/api/authApi.ts";
 import {useDispatch} from "react-redux";
 import {setToken, setUser} from "../../app/authSlice.ts";
-import {isEmailValid} from "../../utils/functions.ts";
+import {isEmailValid} from "../../utils/utilFunctions.ts";
 import {useSnackBar} from "../../shared/SnackBar.tsx";
 import {useNavigate} from "react-router-dom";
 
