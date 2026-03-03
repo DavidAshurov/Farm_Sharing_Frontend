@@ -4,26 +4,28 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {useUpdateUserInfoMutation} from "../../app/api/userApi.ts";
-import {useSnackBar} from "../../shared/SnackBar.tsx";
-import PersonalAvatar from "./PersonalAvatar.tsx";
-import {useGetUploadUrlMutation} from "../../app/api/imagesApi.ts";
-import {getChangedFields} from "../../utils/functions.ts";
-import {setUser} from "../../app/authSlice.ts";
+import {useUpdateUserInfoMutation} from "../../../app/api/userApi.ts";
+import {useSnackBar} from "../../../shared/SnackBar.tsx";
+import {getChangedFields} from "../../../utils/utilFunctions.ts";
+import {setUser} from "../../../app/authSlice.ts";
+import type {UpdateUserDto} from "../../../utils/types/userTypes.ts";
+import type {imageUploaderState} from "../../../utils/types/types.ts";
 
-export type AvatarState = { type: 'unchanged' } | { type: 'removed' } | { type: 'new', file: File, preview: string }
+import {useFileUpload} from "../../../utils/hooks.ts";
+import ImageUploader from "../../../shared/ImageUploader.tsx";
 
 const PersonalInfo = () => {
-    const {showSnackBar} = useSnackBar()
-    const dispatch = useDispatch()
     const [triggerUpdate] = useUpdateUserInfoMutation()
-    const [getUploadUrl] = useGetUploadUrlMutation()
+    const {showSnackBar} = useSnackBar()
+    const {uploadFile} = useFileUpload()
+    const dispatch = useDispatch()
+
 
     const user = useSelector(state => state.auth.user)
 
     const [isSaving, setIsSaving] = useState(false)
     const [editMode, setEditMode] = useState(false)
-    const [avatar, setAvatar] = useState<AvatarState>({type: 'unchanged'})
+    const [avatarState, setAvatarState] = useState<imageUploaderState>({type: 'unchanged'})
     const [userUpdateInfo, setUserUpdateInfo] = useState<UpdateUserDto>({
         address: user.address,
         city: user.city,
@@ -33,34 +35,34 @@ const PersonalInfo = () => {
     })
     const handleSave = async () => {
         if (isSaving) return
+        if (!userUpdateInfo.nickname) {
+            showSnackBar("Nickname can't be empty",'error',7000)
+            return
+        }
+        if (!userUpdateInfo.email) {
+            showSnackBar("Email can't be empty",'error',7000)
+            return
+        }
         try {
             setIsSaving(true)
             const changedFields = getChangedFields(user, userUpdateInfo)
             const payload: Partial<UpdateUserDto> = {...changedFields}
-            if (avatar.type === 'new') {
-                const {uploadUrl, tmpUrl} = await getUploadUrl(`avatars/${avatar.file.name}`).unwrap()
-                await fetch(uploadUrl, {
-                    method: 'PUT',
-                    body: avatar.file,
-                    headers: {
-                        'Content-Type': avatar.file.type,
-                    }
-                })
-                payload.avatarTmpKey = tmpUrl
+            if (avatarState.type === 'new') {
+                payload.avatarTmpKey = await uploadFile(avatarState.file,'avatars')
             }
-            if (avatar.type === 'removed' && user.avatar) {
+            if (avatarState.type === 'removed' && user.avatar) {
                 payload.avatarTmpKey = ''
             }
             if (Object.keys(payload).length === 0) {
-                showSnackBar('Nothing changed', 'info')
+                showSnackBar('Nothing changed', 'info',5000)
                 setEditMode(false)
                 return
             }
             const updatedUser = await triggerUpdate(payload).unwrap()
             dispatch(setUser(updatedUser))
             setEditMode(false)
-            setAvatar({type: 'unchanged'})
-            showSnackBar('Your personal information is updated successfully', 'success')
+            setAvatarState({type: 'unchanged'})
+            showSnackBar('Your personal information is updated successfully', 'success',5000)
         } catch (err) {
             if (err.originalStatus === 400) {
                 showSnackBar(err.data, 'error')
@@ -102,8 +104,13 @@ const PersonalInfo = () => {
                 </Tooltip>
             </Box>
             <Divider/>
-            <PersonalAvatar editMode={editMode} currAvatar={user.avatar}
-                            avatar={avatar} setAvatar={setAvatar}/>
+            <ImageUploader
+                currentImage={user.avatar}
+                imageState={avatarState}
+                setImageState={setAvatarState}
+                variant="avatar"
+                editMode={editMode}
+            />
             <Box sx={{my: '2rem'}}>
                 <>
                     {

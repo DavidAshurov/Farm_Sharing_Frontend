@@ -3,7 +3,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import QuantitySelector from "../../shared/QuantitySelector.tsx";
 import {useEffect, useRef, useState} from "react";
 import {useChangeItemQuantityMutation, useRemoveItemFromCartMutation} from "../../app/api/cartApi.ts";
-import {useDebounce} from "../../utils/functions.ts";
+import {useDebounce} from "../../utils/utilFunctions.ts";
 
 interface Props {
     item: CartItem,

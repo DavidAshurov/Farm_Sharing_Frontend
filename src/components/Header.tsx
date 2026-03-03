@@ -11,8 +11,11 @@ const Header = () => {
     const navigate = useNavigate()
     const [cartIsOpen, setCartIsOpen] = useState(false)
     const user = useSelector(state => state.auth.user)
-
-    const {data = []} = useGetCartQuery()
+    let isClient = false
+    if (user) {
+        isClient = user.role === 'CLIENT'
+    }
+    const {data = []} = useGetCartQuery(undefined, {skip: !isClient})
 
     return (
         <>
@@ -57,7 +60,7 @@ const Header = () => {
                     </>
                 </Toolbar>
             </AppBar>
-            <Cart isOpen={cartIsOpen} handleClose={() => setCartIsOpen(false)} cart={data}/>
+            {isClient && <Cart isOpen={cartIsOpen} handleClose={() => setCartIsOpen(false)} cart={data}/>}
         </>
     );
 };

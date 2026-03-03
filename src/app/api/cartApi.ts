@@ -1,6 +1,5 @@
 import {rootApi} from "./rootApi.ts";
-import CartItem from "../../components/cart/CartItem.tsx";
-
+import {CartItem} from "../../utils/types/types.ts"
 const cartApi = rootApi.injectEndpoints({
     endpoints: (build) => ({
         getCart: build.query<CartItem[],void>({

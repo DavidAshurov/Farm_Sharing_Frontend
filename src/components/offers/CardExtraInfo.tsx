@@ -2,14 +2,12 @@ import type {Dispatch, SetStateAction} from "react";
 import {useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import {Box, Button, Dialog, DialogContent, DialogTitle, Divider, IconButton, Typography} from "@mui/material";
+import {Box, Dialog, DialogContent, DialogTitle, Divider, IconButton, Typography} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import GradeIcon from "@mui/icons-material/Grade";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import {useSnackBar} from "../../shared/SnackBar.tsx";
-import {useAddItemToCartMutation} from "../../app/api/cartApi.ts";
 import QuantitySelector from "../../shared/QuantitySelector.tsx";
 import AddToCartButton from "../../shared/AddToCartButton.tsx";
+import type {Offer} from "../../utils/types/offerTypes.ts";
 
 interface Props {
     open: boolean,
@@ -35,10 +33,10 @@ const CardExtraInfo = ({open, setOpen, offer}: Props) => {
                     <CloseIcon/>
                 </IconButton>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{overflow:'visible'}}>
                 <Box display={{xs:'block',sm:'flex'}} gap={2}>
                     <Box width={'50%'}>
-                        <img alt={'product image'} src={'/src/assets/card image.jpg'}
+                        <img alt={'product image'} src={offer.image || '/src/assets/Product Image Placeholder.png'}
                              style={{
                                  width: "100%",
                                  borderRadius: '1rem',
@@ -62,7 +60,7 @@ const CardExtraInfo = ({open, setOpen, offer}: Props) => {
                         <Divider/>
                         <Box py={'1rem'}>
                             <Typography mb={'0.5rem'} fontWeight={"bold"}>Description</Typography>
-                            <Typography variant={'body2'} color={'grey'}>{offer.description}</Typography>
+                            <Typography variant={'body2'} color={'grey'}>{offer.description || 'No description is provided'}</Typography>
                         </Box>
                         <Divider/>
                         <Box>

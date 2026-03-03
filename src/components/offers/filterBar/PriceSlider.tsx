@@ -1,6 +1,6 @@
 import {Box, Slider, Typography} from "@mui/material";
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
-import {useDebounce} from "../../../utils/functions.ts";
+import {useDebounce} from "../../../utils/utilFunctions.ts";
 
 interface Props {
     offersRequestParams: OffersRequest,

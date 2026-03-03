@@ -1,9 +1,9 @@
 import {Box, CircularProgress, Grid, Pagination, Typography} from "@mui/material";
 import OfferCard from "./OfferCard.tsx";
 import {useGetAllOffersQuery} from "../../app/api/offerApi.ts";
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import {useEffect, useState} from "react";
 import ErrorPage from "../../shared/ErrorPage.tsx";
+import type {OffersRequest, OffersResponse} from "../../utils/types/offerTypes.ts";
 
 interface Props {
     offersRequestParams:OffersRequest,

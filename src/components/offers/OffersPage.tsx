@@ -7,6 +7,7 @@ import Header from "../Header.tsx";
 const OffersPage = () => {
     const [offersRequestParams, setOffersRequestParams] = useState<OffersRequest>({
         pageNumber:0,
+        pageSize:20,
         search:'',
         category:'All products',
         sortDirection:'asc',

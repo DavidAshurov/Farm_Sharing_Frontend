@@ -24,7 +24,6 @@ const AuthInputLine = ({label, placeholder, icon: Icon, value, setValue, error, 
             <TextField
                 label={label}
                 type={isPassword && !showPassword ? 'password' : 'text'}
-                color={'secondary'}
                 fullWidth={true}
                 size={'small'}
                 placeholder={placeholder}
@@ -37,17 +36,19 @@ const AuthInputLine = ({label, placeholder, icon: Icon, value, setValue, error, 
                     }
                     setValue(e.target.value)
                 }}
-                InputProps={{
-                    endAdornment: isPassword ? (
-                            <InputAdornment position={'end'}>
-                                <IconButton
-                                    color={"secondary"}
-                                    onClick={() => setShowPassword(prev => !prev)}
-                                >
-                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                </IconButton>
-                            </InputAdornment>)
-                        : undefined
+                slotProps={{
+                    input: {
+                        endAdornment: isPassword ? (
+                                <InputAdornment position={'end'}>
+                                    <IconButton
+                                        color={"secondary"}
+                                        onClick={() => setShowPassword(prev => !prev)}
+                                    >
+                                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                    </IconButton>
+                                </InputAdornment>)
+                            : null
+                    }
                 }}
             />
         </Box>

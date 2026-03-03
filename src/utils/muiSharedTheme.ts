@@ -68,5 +68,14 @@ export const muiSharedTheme = createTheme({
                 },
             },
         },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-focused': {
+                        color: '#4b9b4b',
+                    }
+                }
+            }
+        }
     }
 })

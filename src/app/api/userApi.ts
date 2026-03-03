@@ -1,5 +1,7 @@
 import {rootApi} from "./rootApi.ts";
 
+import type {UpdateUserDto, User} from "../../utils/types/userTypes.ts";
+
 const userApi = rootApi.injectEndpoints({
     endpoints:(build) => ({
         getMe: build.mutation<User,void>({

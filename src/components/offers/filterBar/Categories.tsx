@@ -1,5 +1,6 @@
 import {Box, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import type {Dispatch, SetStateAction} from "react";
+import {categories} from "../../../utils/constants.ts";
 
 interface Props {
     offersRequestParams: OffersRequest,
@@ -7,8 +8,6 @@ interface Props {
 }
 
 const Categories = ({offersRequestParams, setOffersRequestParams}: Props) => {
-    const categories = ['All products', 'Vegetables', 'Fruits', 'Herbs', 'Dairy', 'Pantry']
-
     const handleCategory = (_, newCategory) => {
         setOffersRequestParams(prev => ({...prev, category: newCategory === null ? 'All products' : newCategory}))
     }
